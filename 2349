@@ -1,0 +1,44 @@
+
+import java.util.*;
+
+class NumberContainers {
+
+    HashMap<Integer, Integer> indexMap;
+    HashMap<Integer, PriorityQueue<Integer>> numberMap;
+
+    public NumberContainers() {
+        indexMap = new HashMap<>();
+        numberMap = new HashMap<>();
+    }
+
+    public void change(int index, int number) {
+
+        indexMap.put(index, number);
+
+        numberMap.putIfAbsent(number, new PriorityQueue<>());
+
+        numberMap.get(number).add(index);
+    }
+
+    public int find(int number) {
+
+        if (!numberMap.containsKey(number)) {
+            return -1;
+        }
+
+        PriorityQueue<Integer> pq = numberMap.get(number);
+
+        while (!pq.isEmpty()) {
+
+            int index = pq.peek();
+
+            if (indexMap.get(index) == number) {
+                return index;
+            }
+
+            pq.poll();
+        }
+
+        return -1;
+    }
+}
